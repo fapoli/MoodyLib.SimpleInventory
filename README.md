@@ -17,7 +17,7 @@ Designed around simple identifiers, instance-based inventories, and clean data a
 4. Paste the following URL and click **Add**:
 
    ```text
-   https://github.com/fapoli/SimpleInventory.git
+   https://github.com/fapoli/MoodyLib.SimpleInventory.git
    ```
 
 Unity will download and install the package. After installation, it will appear under the **Packages** folder.
