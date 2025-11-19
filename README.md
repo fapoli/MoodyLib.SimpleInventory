@@ -1,4 +1,4 @@
-# SimpleInventory
+# MoodyLib.SimpleInventory
 
 A lightweight and flexible inventory system for Unity.  
 Designed around simple identifiers, instance-based inventories, and clean data aggregation.
