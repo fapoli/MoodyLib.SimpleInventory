@@ -23,6 +23,11 @@ namespace MoodyLib.SimpleInventory {
         /// </summary>
         public event Action<IIdentifiable> OnItemRemoved;
 
+        /// <summary>
+        /// Invoked whenever the inventory changes.
+        /// </summary>
+        public event Action OnInventoryChanged;
+        
         private List<IIdentifiable> _items = new List<IIdentifiable>();
 
         /// <summary>
@@ -67,6 +72,7 @@ namespace MoodyLib.SimpleInventory {
         public void AddItem(IIdentifiable item) {
             _items.Add(item);
             OnItemAdded?.Invoke(item);
+            OnInventoryChanged?.Invoke();
         }
 
         /// <summary>
@@ -79,7 +85,8 @@ namespace MoodyLib.SimpleInventory {
                 var item = _items[i];
                 _items.RemoveAt(i);
                 OnItemRemoved?.Invoke(item);
-
+                OnInventoryChanged?.Invoke();
+                
                 return;
             }
         }
@@ -89,27 +96,39 @@ namespace MoodyLib.SimpleInventory {
         /// for each removed item.
         /// </summary>
         public void RemoveAllItems(string itemId) {
+            var removeCount = 0;
+            
             for (int i = _items.Count - 1; i >= 0; i--) {
                 if (_items[i].ID != itemId) continue;
 
                 var item = _items[i];
                 _items.RemoveAt(i);
                 OnItemRemoved?.Invoke(item);
+
+                removeCount++;
+            }
+
+            if (removeCount > 0) {
+                OnInventoryChanged?.Invoke();
             }
         }
 
         /// <summary>
         /// Clears this inventory. Optionally triggers <see cref="OnItemRemoved"/> for each removed item.
         /// </summary>
-        public void Clear(bool triggerEvents = true) {
+        public void Clear(bool triggerRemoveEvents = true) {
+            if (_items.Count == 0) return;
+            
             for (int i = _items.Count - 1; i >= 0; i--) {
                 var item = _items[i];
                 _items.RemoveAt(i);
 
-                if (triggerEvents) {
+                if (triggerRemoveEvents) {
                     OnItemRemoved?.Invoke(item);
                 }
             }
+
+            OnInventoryChanged?.Invoke();
         }
     }
 }

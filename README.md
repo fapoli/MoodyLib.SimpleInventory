@@ -88,7 +88,7 @@ inventory.AddItem(someItemDefinition);
 ### 2. Add an Inventory component or use the prefab
 
 ```csharp
-[SerializeField] private Inventory inventory;
+[SerializeField] private Inventory _inventory;
 ```
 
 Or find it by tag:
@@ -101,7 +101,7 @@ var inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventor
 
 ```csharp
 inventory.AddItem(new Apple());
-inventory.RemoveItem("Apple");
+inventory.RemoveItem("apple");
 ```
 
 ### 4. Listen for events
@@ -117,15 +117,6 @@ inventory.OnItemRemoved += item => Debug.Log("Removed: " + item.ID);
 var items = inventory.ListItems<ItemDefinition>();
 
 foreach (var entry in items) {
-    Debug.Log($"{entry.item.ID} x {entry.count}");
-}
-```
-
-### 5b. Or filter specific item types
-```csharp
-var apples = inventory.ListItems<Apple>();
-
-foreach (var entry in apples) {
     Debug.Log($"{entry.item.ID} x {entry.count}");
 }
 ```
@@ -165,4 +156,4 @@ Checks existence by ID.
 Empties the inventory. By default it will trigger a remove item event for each item removed, unless false is specified as the first parameter.
 
 ### `Inventory.ListItems<T>()`
-List inventory items, where T is the type of items you are storing in the inventory (The scriptable object). The response will be a list of ItemCount<T> where each item type (by ID) will be grouped with it's corresponding amount of occurrences. It can also be used to filter specific implementations of items (eg: items of type Apple), by specifying it as T.
+List inventory items, where T is the type of items you are storing in the inventory (The scriptable object). The response will be a list of ItemCount<T> where each item type (by ID) will be grouped with its corresponding amount of occurrences. 
